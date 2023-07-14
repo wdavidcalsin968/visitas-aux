@@ -27,13 +27,13 @@ class RegistrarVisita2 extends Component
             'dni' => 'required'
         ]);
 
-        if ($this->dni != '') {            
-            $token = 'apis-token-1.aTSI1U7KEuT-6bbbCguH-4Y8TI6KS73N';
-            
+        if ($this->dni != '') {
+            $token = 'apis-token-4993.klloKYrpr53i2bi2Au-yQ-l3p266O8iB';
+
             $curl = curl_init();
-            
+
             curl_setopt_array($curl, array(
-                
+
                 CURLOPT_URL => 'https://api.apis.net.pe/v2/reniec/dni?numero=' . $this->dni,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_SSL_VERIFYPEER => 0,
@@ -47,7 +47,7 @@ class RegistrarVisita2 extends Component
                     'Authorization: Bearer ' . $token
                 ),
             ));
-            
+
             $response = curl_exec($curl);
             $dataDni = json_decode($response);
 
