@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Oficinas;
 use App\Models\Sedes;
+use Error;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
@@ -17,6 +18,8 @@ class RegistrarVisita2 extends Component
     public $nombreOficina = '';
     public $name_sede = '';
     public $piso = '';
+    public $isDni = false;
+    public $isOficina = false;
 
     public function addDni(string $dni)
     {
@@ -55,16 +58,17 @@ class RegistrarVisita2 extends Component
 
             curl_close($curl);
 
-
-            if ($dataDni) {
+            if (!isset($dataDni->message)) {
                 $dni = $dataDni->numeroDocumento;
                 $this->nombre = $dataDni->nombres;
                 $this->apellido = $dataDni->apellidoPaterno . ' ' . $dataDni->apellidoMaterno;
+                $this->isDni = true;
             } else {
                 $this->dni = '';
                 $this->nombre = '';
                 $this->apellido = '';
                 $this->addError('dni', 'El DNI ingresado no existe');
+                $this->isDni = false;
             }
         }
     }
@@ -77,10 +81,12 @@ class RegistrarVisita2 extends Component
         if (isset($oficinaName)) {
             $this->name_sede = $oficinaName->sede->nombre_sede;
             $this->piso = $oficinaName->piso;
+            $this->isOficina = true;
         } else {
             $this->piso = '';
             $this->name_sede = '';
             $this->addError('oficina', 'La oficina ingresada no existe');
+            $this->isOficina = false;
         }
     }
 
